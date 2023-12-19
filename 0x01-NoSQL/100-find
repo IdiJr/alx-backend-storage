@@ -1,4 +1,4 @@
 // Regex filter
 db.school.find({
-  "name": /^Holberton/i
+  "name": /^Holberton/
 });
