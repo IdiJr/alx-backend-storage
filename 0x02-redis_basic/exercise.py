@@ -20,8 +20,9 @@ def count_calls(method: Callable) -> Callable:
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         """
-        Increments the count for that key every time the method
-        is called and returns the value returned by the original method
+        Increases the count a key every time it
+        is called and returns the value returned
+        by the original method
         """
         key = method.__qualname__
         self._redis.incr(key)
