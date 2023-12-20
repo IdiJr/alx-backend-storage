@@ -2,9 +2,10 @@
 """  requests module to obtain the HTML content
 of a particular URL and returns it """
 
-import requests
-import redis
 from functools import wraps
+
+import redis
+import requests
 
 cache = redis.Redis()
 
