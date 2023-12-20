@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# Updates and Installs Redis on Ubuntu 18.04
+sudo apt-get update
+sudo apt-get -y install redis-server
+
+# Installs Redis Python client using pip3
+pip3 install redis
+
+# Updates Redis configuration to bind to 127.0.0.1
+sudo sed -i "s/bind .*/bind 127.0.0.1/g" /etc/redis/redis.conf
+
+# Restarts Redis to apply the configuration changes
+sudo service redis-server restart
+
+# Starts the Redis server in the container
+sudo service redis-server start
+
+echo "Redis installation and configuration completed."
