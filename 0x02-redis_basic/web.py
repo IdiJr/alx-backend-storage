@@ -15,22 +15,19 @@ def count_url_access(method):
     with an expiration time of 10 seconds.
     """
     @wraps(method)
-    def wrapper(url: str) -> str:
-        key = f"count:{url}"
-        count = cache.get(key)
-        if count is None:
-            count = 0
-        count += 1
-        cache.set(key, count, ex=10)
+    def wrapper(url):
+        cached_key = "cached:" + url
+        cached_data = cache.get(cached_key)
+        if cached_data:
+            return cached_data.decode("utf-8")
 
-        result_key = f"result:{url}"
-        cached_result = cache.get(result_key)
-        if cached_result is not None:
-            return cached_result.decode()
+        count_key = "count:" + url
+        html = method(url)
 
-        result = method(url)
-        cache.set(result_key, result, ex=10)
-        return result
+        cache.incr(count_key)
+        cache.set(cached_key, html)
+        cache.expire(cached_key, 10)
+        return html
     return wrapper
 
 
